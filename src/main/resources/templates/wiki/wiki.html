@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CODE WIKI</title>
+    <!-- viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}" type="text/css">
+
+    <!-- CSS-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Comfortaa|Noto+Sans+KR|Nanum+Gothic" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
+
+</head>
+<body>
+    <div th:insert="common/header.html"></div>
+
+    <article class="wiki-article">
+
+        <div class="wiki-article-menu">
+            <div class="btn-group" role="group">
+                <!--
+                <a class="btn btn-outline-secondary" href="#" role="button">역링크</a>
+                <a class="btn btn-outline-secondary" href="#" role="button">토론</a>
+                -->
+                <a class="btn btn-outline-secondary" rel="nofollow" th:href="@{'/wiki/edit/' + ${wikiDto.codeId}}" role="button" id="btnEdit">편집</a>
+                <a class="btn btn-outline-secondary" th:href="@{'/wiki/' + ${wikiDto.codeId} + '/history'}" role="button">역사</a>
+                <!--
+                <a class="btn btn-outline-secondary" href="#" role="button">ACL</a>
+                -->
+            </div>
+        </div>
+        <div class="wiki-content">
+            <h2 class="h2" th:text="${wikiDto.codeName}"></h2>
+            <p class="strDate" style="text-align: right;" th:inline="text">
+                마지막 수정일 : [[${#temporals.format(wikiDto.updateDate, 'yyyy-MM-dd HH:mm:ss')}]]
+            </p>
+            <hr>
+            <div th:utext="${wikiDto.data}"></div>
+        </div>
+    </article>
+    <!--JavaScript-->
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}" type="text/javascript"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/search.js}" type="text/javascript"></script>
+</body>
+</html>

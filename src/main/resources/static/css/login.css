@@ -1,0 +1,83 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
+
+.card {
+    width: 95%;
+    max-width: 600px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-sign-in {
+    width: 100%;
+    max-width: 500px;
+    padding: 15px;
+    margin: auto;
+}
+.form-sign-in h3 a:link, .form-sign-in h3 a:visited, .form-sign-in h3 a:hover {
+    color: #000000;
+    text-decoration: none;
+}
+.form-sign-in .checkbox {
+    font-weight: 400;
+}
+.form-sign-in .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 0.8em;
+}
+.form-sign-in .form-control:focus {
+    z-index: 2;
+}
+.form-sign-in input[type="email"] {
+}
+.form-sign-in input[type="password"] {
+}
+
+.form-title {
+    text-align: center;
+}
+
+.form-section {
+    padding: 15px;
+    margin: auto;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    border-color: #525b63;
+    background-color: #525b63;
+}
+
+.label-rememberEmail {
+    font-size: 0.95rem;
+}
+
+.card-footer {
+    background-color: #fff;
+    text-align: right;
+    font-size: 0.95em;
+}
+
+.result {
+    margin-top: 10px;
+    text-align: center;
+    display: inherit;
+    color: #dc3545;
+    font-weight: normal;
+    font-size: 0.8rem;
+    font-style: normal;
+}

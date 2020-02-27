@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CODE WIKI</title>
+    <!-- viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}" type="text/css">
+
+    <!-- CSS-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Comfortaa|Noto+Sans+KR|Nanum+Gothic" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/list.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/fontstyle.css}" type="text/css">
+</head>
+<body>
+    <div th:insert="common/header.html"></div>
+
+    <div th:with="query=${listType}">
+        <div class="listTitle">
+            <h5 class="h5" th:inline="text">'[[${query}]]' 검색 결과</h5>
+        </div>
+
+        <div th:insert="common/wiki-list-table.html"></div>
+
+        <!-- 페이징 처리 -->
+        <nav class="NavPage">
+            <ul class="pagination pagination-sm justify-content-center">
+                <span th:if="${prevBlock>0}">
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/wiki/search?query=' + ${query} + '&page=' + ${prevBlock}}" tabindex="-1" aria-disabled="true">이전</a>
+                    </li>
+                </span>
+
+                <span th:each="pageNum : ${pageList}" th:inline="text">
+                    <span th:if="${#strings.equals(#strings.toString(pageNum), #strings.toString(page))}">
+                        <li class="page-item active disabled" aria-current="page">
+                            <a class="page-link active-page-link">[[${pageNum}]]</a>
+                        </li>
+                    </span>
+                    <span th:unless="${#strings.equals(#strings.toString(pageNum), #strings.toString(page))}">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{'/wiki/search?query=' + ${query} + '&page=' + ${pageNum}}">[[${pageNum}]]</a>
+                        </li>
+                    </span>
+                </span>
+                <span th:if="${nextBlock>0}">
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/wiki/search?query='+ ${query}+ '&page=' + ${nextBlock}}">다음</a>
+                    </li>
+                </span>
+            </ul>
+        </nav>
+    </div>
+
+    <!--JavaScript-->
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}" type="text/javascript"></script>
+    <script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/search.js}" type="text/javascript"></script>
+    <script th:src="@{/js/wiki-list.js}" type="text/javascript"></script>
+</body>
+</html>

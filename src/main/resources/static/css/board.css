@@ -1,0 +1,66 @@
+.boardList {
+    width: 98%;
+    margin-top: 30px;
+    margin-left: 1%;
+    font-size: 0.7em;
+}
+
+.writeAction {
+    text-align: center;
+    margin-right: 1%;
+}
+
+#writeForm {
+    margin-top: 30px;
+    width: 98%;
+    margin-left: 1%;
+}
+
+.center {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.board-content {
+    width: 96%;
+    margin-top: 30px;
+    margin-left: 2%;
+}
+
+.viewButton {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.viewButton .btn {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.menu {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.menu div form {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.searchInput {
+    display: flex;
+}
+
+.searchInput input {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.pagination .active .active-page-link {
+    background: #343a40;
+    border-color: #343a40;
+    color: #FFFFFF;
+}
+.page-link {
+    color: #343a40;
+}

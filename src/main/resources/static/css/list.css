@@ -1,0 +1,19 @@
+.listTitle {
+    margin-top: 30px;
+    margin-left: 5px;
+}
+
+.wikiList {
+    width: 98%;
+    margin-top: 10px;
+    margin-left: 1%;
+    font-size: 0.7em;
+}
+.pagination .active .active-page-link {
+    background: #343a40;
+    border-color: #343a40;
+    color: #FFFFFF;
+}
+.page-link {
+    color: #343a40;
+}
