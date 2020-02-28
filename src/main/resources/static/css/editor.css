@@ -12,6 +12,7 @@
 .editor-header {
     margin-top: 20px;
     margin-left: 10px;
+    margin-bottom: 20px;
 }
 
 .editor-header h3 {
@@ -54,4 +55,8 @@ label.error {
     color: #000;
     font-weight: bold;
     font-size: 0.9em;
+}
+
+label {
+    display: block;
 }
