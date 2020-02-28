@@ -41,13 +41,13 @@ public class BoardController {
             this.addPageAttribute(model, pageNum, pageList, prevBlock, nextBlock);
         }
         // 페이지 리턴
-        return "/board/board.html";
+        return "board/board.html";
     }
 
     // 게시글 쓰기 view 연결
     @GetMapping("/board/write")
     public String write() {
-        return "/board/write.html";
+        return "board/write.html";
     }
 
     // 게시글 저장 로직
@@ -74,7 +74,7 @@ public class BoardController {
         boardService.savePost(boardDto);
         // 3. 데이터 전달
         model.addAttribute("boardDto", boardDto);
-        return "/board/post.html";
+        return "board/post.html";
     }
 
     // 게시글 수정 view
@@ -88,7 +88,7 @@ public class BoardController {
         }
         // 3. 데이터 전달
         model.addAttribute("boardDto", boardDto);
-        return "/board/modify.html";
+        return "board/modify.html";
     }
 
     // Restful API 사용, 게시글 수정 처리
@@ -117,7 +117,7 @@ public class BoardController {
         List<BoardDto> postList = boardService.searchPost(keyword);
         // 2. 결과 리스트 데이터 전달
         model.addAttribute("postList", postList);
-        return "/board/board.html";
+        return "board/board.html";
     }
 
     // 페이지 속성 전달. 컨트롤러 파일 내에서 모델 속성을 추가해야 타임리프가 바인딩 할 수 있다.

@@ -41,14 +41,14 @@ public class WikiController {
         // 2. 코드 데이터가 없으면 해당 서비스로 리다이렉트
         if(varcodeDto == null) {
             model.addAttribute("codeId", id);
-            return "/wiki/no-wiki-document.html";
+            return "wiki/no-wiki-document.html";
         }
         // 3. 코드 정보를 바탕으로 최신 문서 불러오기
         Long revisionDoc = varcodeDto.getLatelyRevision();
         // 4. 데이터 전달
         WikiDto wikiDto = wikiService.getDocument(id, revisionDoc);
         model.addAttribute("wikiDto", wikiDto);
-        return "/wiki/wiki.html";
+        return "wiki/wiki.html";
     }
 
     // 위키 문서의 리비전 페이지
@@ -58,7 +58,7 @@ public class WikiController {
         WikiDto wikiDto = wikiService.getDocument(id, revisionDoc);
         // 2. 데이터 전달
         model.addAttribute("wikiDto", wikiDto);
-        return "/wiki/wiki.html";
+        return "wiki/wiki.html";
     }
 
     // 위키 문서 수정 페이지
@@ -75,7 +75,7 @@ public class WikiController {
         }
         // 3. 코드 데이터 전달(Id)
         model.addAttribute("codeId", id);
-        return "/wiki/edit.html";
+        return "wiki/edit.html";
     }
 
     // 위키 문서 수정
@@ -104,7 +104,7 @@ public class WikiController {
         model.addAttribute("codeId", id);
         // 페이징 데이터 전달
         this.addPageAttribute(model, pageNum, pageList, prevBlock, nextBlock);
-        return "/wiki/wiki-history.html";
+        return "wiki/wiki-history.html";
     }
 
     // 최근 변경된 문서 리스트 페이지
@@ -114,7 +114,7 @@ public class WikiController {
         List<OrderedListDto> wikiList = wikiService.getWikiList("lately", pageNum);
         // 2. 데이터 전달
         processWikiList(pageNum, wikiList, model, "lately");
-        return "/wiki/wiki-list.html";
+        return "wiki/wiki-list.html";
     }
     // 편집된지 오래 된 문서 리스트 페이지
     @GetMapping("/wiki/list/old")
@@ -123,7 +123,7 @@ public class WikiController {
         List<OrderedListDto> wikiList = wikiService.getWikiList("old", pageNum);
         // 2. 데이터 전달
         processWikiList(pageNum, wikiList, model, "old");
-        return "/wiki/wiki-list.html";
+        return "wiki/wiki-list.html";
     }
     // 내용이 긴 문서 리스트 페이지
     @GetMapping("/wiki/list/longest")
@@ -132,7 +132,7 @@ public class WikiController {
         List<OrderedListDto> wikiList = wikiService.getWikiList("longest", pageNum);
         // 2. 데이터 전달
         processWikiList(pageNum, wikiList, model, "longest");
-        return "/wiki/wiki-list.html";
+        return "wiki/wiki-list.html";
     }
     // 내용이 짧은 문서 리스트 페이지
     @GetMapping("/wiki/list/shortest")
@@ -141,7 +141,7 @@ public class WikiController {
         List<OrderedListDto> wikiList = wikiService.getWikiList("shortest", pageNum);
         // 2. 데이터 전달
         processWikiList(pageNum, wikiList, model, "shortest");
-        return "/wiki/wiki-list.html";
+        return "wiki/wiki-list.html";
     }
     // 위키 문서 검색결과 리스트 페이지
     @GetMapping("/wiki/search")
@@ -150,7 +150,7 @@ public class WikiController {
         List<OrderedListDto> wikiList = wikiService.searchDoc(query, pageNum);
         // 2. 데이터 전달
         processWikiList(pageNum, wikiList, model, query);
-        return "/wiki/search-result.html";
+        return "wiki/search-result.html";
     }
     // 위키 문서 검색 후 바로 이동
     @GetMapping("/wiki/direct")

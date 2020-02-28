@@ -33,7 +33,7 @@ public class UserController {
         if (userDto==null) {
             model.addAttribute("userDto", null);
         }
-        return "/user/signup.html";
+        return "user/signup.html";
     }
 
     // 회원가입 처리
@@ -54,7 +54,7 @@ public class UserController {
                 model.addAttribute(attr, "is-invalid");
             }
             // 같은 페이지 로드, (GET 요청에서 userDto 를 전달해 주지 않으면 페이지가 로드되지 않는다.)
-            return "/user/signup.html";
+            return "user/signup.html";
         }
         // 검증 통과 시 유저 정보 저장
         userService.joinUser(userDto);
@@ -72,7 +72,7 @@ public class UserController {
             // 세션에 이전페이지 정보 저장
             request.getSession().setAttribute("prevPage", referer);
         }
-        return "/user/login.html";
+        return "user/login.html";
     }
 
     // 로그아웃 결과 페이지
@@ -87,7 +87,7 @@ public class UserController {
         String message = e.getMessage();
         // 거부 이유 전달
         model.addAttribute("message", message);
-        return "/error/403";
+        return "error/403";
     }
 
     // 비밀번호 찾기 페이지
@@ -97,7 +97,7 @@ public class UserController {
         if (userDto==null) {
             model.addAttribute("userDto", null);
         }
-        return "/user/find-password.html";
+        return "user/find-password.html";
     }
 
     // 비밀번호 찾기 처리
@@ -109,7 +109,7 @@ public class UserController {
             model.addAttribute("emailMessage", ResultMessage.NOT_EXIST_EMAIL.getValue());
             // 검증 실패를 css 에서 확인할 수 있는 클래스 전달
             model.addAttribute("valid_email", "is-invalid");
-            return "/user/find-password";
+            return "user/find-password";
         }
         // 2. 이메일이 일치하면 사용자 이름이 일치하는지 확인
         if (!userService.isExistUser(userDto.getEmail(), userDto.getName())) {
@@ -119,12 +119,12 @@ public class UserController {
             model.addAttribute("nameMessage", ResultMessage.NOT_MATCH_USERNAME.getValue());
             // 검증 실패를 css 에서 확인할 수 있는 클래스 전달
             model.addAttribute("valid_name", "is-invalid");
-            return "/user/find-password";
+            return "user/find-password";
         }
         // 3. 사용자 정보 확보 성공, 비밀번호 초기화 페이지로 데이터 전달.
         model.addAttribute("isExistEmail", userDto.getEmail());
         model.addAttribute("isExistName", userDto.getName());
-        return "/user/change-password";
+        return "user/change-password";
     }
 
     // 비밀번호 초기화
@@ -144,7 +144,7 @@ public class UserController {
                 // 검증 실패를 css 에서 확인할 수 있는 클래스 전달
                 model.addAttribute(attr, "is-invalid");
             }
-            return "/user/change-password";
+            return "user/change-password";
         }
         // 2. 새로운 패스워드 일치 여부 검사
         if (!updateUserDto.getNewPassword().equals(updateUserDto.getConfirmPassword())) {
@@ -156,11 +156,11 @@ public class UserController {
             // 검증 실패를 css 에서 확인할 수 있는 클래스 전달
             model.addAttribute("valid_newPasswordAttr", "is-invalid");
             model.addAttribute("valid_confirmPasswordAttr", "is-invalid");
-            return "/user/change-password";
+            return "user/change-password";
         }
         // 3. 검증 성공, 비밀번호 변경
         userService.updateUser(updateUserDto);
-        return "/user/change-success.html";
+        return "user/change-success.html";
     }
 
     // 유저 정보 패이지
@@ -173,7 +173,7 @@ public class UserController {
         // 사용자 데이터 전달
         model.addAttribute("email", userDetails.getUsername());
         model.addAttribute("name", userDetails.getName());
-        return "/user/mypage.html";
+        return "user/mypage.html";
     }
 
     // 유저 정보 수정
@@ -186,13 +186,13 @@ public class UserController {
         if(!userService.isPasswordEqual(updateUserDto)) {
             // 검증 실패 메시지 전달
             model.addAttribute("resultMsg", ResultMessage.NOT_MATCH_PASSWORD.getValue());
-            return "/user/mypage";
+            return "user/mypage";
         }
         // 2. 새로운 패스워드 일치 여부 검사
         if (!updateUserDto.getNewPassword().equals(updateUserDto.getConfirmPassword())) {
             // 검증 실패 메시지 전달
             model.addAttribute("resultMsg", ResultMessage.NOT_EQUAL_NEW_PASSWORD.getValue());
-            return "/user/mypage";
+            return "user/mypage";
         }
         // 3. 입력정보 검증
         if(errors.hasErrors()) {
@@ -201,12 +201,12 @@ public class UserController {
             for (String key : validatorResult.keySet()) {
                 model.addAttribute(key, validatorResult.get(key));
             }
-            return "/user/mypage";
+            return "user/mypage";
         }
         // 4. 회원정보 수정
         userService.updateUser(updateUserDto);
         model.addAttribute("resultMsg", ResultMessage.SUCCESS_UPDATE_USER.getValue());
-        return "/user/mypage";
+        return "user/mypage";
     }
 
     // 정보 유지 공통처리
@@ -218,6 +218,6 @@ public class UserController {
     // 관리자 페이지 리다이렉트
     @GetMapping("/admin")
     public String admin() {
-        return "/admin/admin.html";
+        return "admin/admin.html";
     }
 }
