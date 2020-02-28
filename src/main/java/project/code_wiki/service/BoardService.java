@@ -13,7 +13,6 @@ import project.code_wiki.dto.BoardDto;
 import project.code_wiki.exception.NotFoundPostException;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
