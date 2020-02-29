@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class DocumentDto {
     // 필드
     private Long id;
-    private String varcodeId;
+    private String barcodeId;
     private Long revisionDoc;
     private String userId;
     private String data;
@@ -25,7 +25,7 @@ public class DocumentDto {
     // DTO 에서 필요한 부분을 빌더 패턴을 통해 entity 로 만듬
     public DocumentEntity toEntity() {
         return DocumentEntity.builder()
-                .id(id).varcodeId(varcodeId).revisionDoc(revisionDoc).userId(userId).data(data)
+                .id(id).barcodeId(barcodeId).revisionDoc(revisionDoc).userId(userId).data(data)
                 .build();
     }
 }

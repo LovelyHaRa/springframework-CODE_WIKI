@@ -14,16 +14,16 @@ public class DocumentDistinctCodeIdEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     // 필드 정의(DocumentEntity 필드와 동일)
     private Long id;
-    private String varcode_id;
+    private String barcode_id;
     private Long revision_doc;
     private String user_id;
     private String data;
     private LocalDateTime update_date;
 
     // 생성자를 통해 쿼리에서 인스턴스 저장이 가능하다
-    public DocumentDistinctCodeIdEntity(Long id, String varcode_id, Long revision_doc, String user_id, String data, LocalDateTime update_date) {
+    public DocumentDistinctCodeIdEntity(Long id, String barcode_id, Long revision_doc, String user_id, String data, LocalDateTime update_date) {
         this.id = id;
-        this.varcode_id = varcode_id;
+        this.barcode_id = barcode_id;
         this.revision_doc = revision_doc;
         this.user_id = user_id;
         this.data = data;

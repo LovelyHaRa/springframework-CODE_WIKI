@@ -15,7 +15,7 @@ public enum ResultMessage {
     EDIT_POST_ACCESS_DENIED("작성자만 접근할 수 있습니다."),
     NOT_EQUAL_EMAIL_OR_PASSWORD("이메일 또는 비밀번호가 일치하지 않습니다."),
     NOT_FOUND_POST("수정하려는 게시글을 찾지 못함"),
-    NOT_EXIST_VARCODE_ID("일치하는 바코드 없음");
+    NOT_EXIST_BARCODE_ID("일치하는 바코드 없음");
 
     private String value;
 }

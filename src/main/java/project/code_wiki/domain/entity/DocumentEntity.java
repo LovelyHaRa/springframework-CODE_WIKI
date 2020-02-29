@@ -14,14 +14,14 @@ import java.time.LocalDateTime;
 @NamedQuery(
         // 코드 중복을 제외한 문서 데이터 추출
         name = "DocumentEntity.findDocList",
-        query = "SELECT d FROM DocumentEntity d GROUP BY d.varcodeId"
+        query = "SELECT d FROM DocumentEntity d GROUP BY d.barcodeId"
 )
 @NamedNativeQueries({
         @NamedNativeQuery(
                 // 내용이 긴 문서 쿼리
                 name = "DocumentEntity.findDocListOrderByLength",
-                query = "SELECT document.id, varcode_id, revision_doc, user_id, `data`,update_date " +
-                        "FROM document INNER JOIN varcode ON document.varcode_id = varcode.id " +
+                query = "SELECT document.id, barcode_id, revision_doc, user_id, `data`,update_date " +
+                        "FROM document INNER JOIN barcode ON document.barcode_id = barcode.id " +
                         "WHERE lately_revision = revision_doc " +
                         "ORDER BY CHAR_LENGTH(DATA) Desc",
                 resultSetMapping = "DocumentEntity.findDocListOrderByLength"
@@ -29,8 +29,8 @@ import java.time.LocalDateTime;
         @NamedNativeQuery(
                 // 내용이 짧은 문서 쿼리
                 name = "DocumentEntity.findDocListOrderByLengthAsc",
-                query = "SELECT document.id, varcode_id, revision_doc, user_id, `data`,update_date " +
-                        "FROM document INNER JOIN varcode ON document.varcode_id = varcode.id " +
+                query = "SELECT document.id, barcode_id, revision_doc, user_id, `data`,update_date " +
+                        "FROM document INNER JOIN barcode ON document.barcode_id = barcode.id " +
                         "WHERE lately_revision = revision_doc " +
                         "ORDER BY CHAR_LENGTH(DATA)",
                 resultSetMapping = "DocumentEntity.findDocListOrderByLength"
@@ -44,7 +44,7 @@ import java.time.LocalDateTime;
                         targetClass = DocumentDistinctCodeIdEntity.class,
                         columns = {
                                 @ColumnResult(name = "id", type = Long.class),
-                                @ColumnResult(name = "varcode_id", type = String.class),
+                                @ColumnResult(name = "barcode_id", type = String.class),
                                 @ColumnResult(name = "revision_doc", type = Long.class),
                                 @ColumnResult(name = "user_id", type = String.class),
                                 @ColumnResult(name = "data", type = String.class),
@@ -60,7 +60,7 @@ public class DocumentEntity extends DocumentTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String varcodeId;
+    private String barcodeId;
     @Column
     private Long revisionDoc;
     @Column

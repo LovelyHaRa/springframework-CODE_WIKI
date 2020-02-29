@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import project.code_wiki.common.PageController;
 import project.code_wiki.dto.HistoryListDto;
 import project.code_wiki.dto.OrderedListDto;
-import project.code_wiki.dto.VarcodeDto;
+import project.code_wiki.dto.BarcodeDto;
 import project.code_wiki.dto.WikiDto;
 import project.code_wiki.security.CustomUserDetails;
 import project.code_wiki.service.WikiService;
@@ -37,14 +37,14 @@ public class WikiController {
     @GetMapping("/wiki/{id}")
     public String wiki(@PathVariable("id") String id, Model model) {
         // 1. 코드 데이터 불러오기
-        VarcodeDto varcodeDto = wikiService.getCode(id);
+        BarcodeDto barcodeDto = wikiService.getCode(id);
         // 2. 코드 데이터가 없으면 해당 서비스로 리다이렉트
-        if(varcodeDto == null) {
+        if(barcodeDto == null) {
             model.addAttribute("codeId", id);
             return "wiki/no-wiki-document.html";
         }
         // 3. 코드 정보를 바탕으로 최신 문서 불러오기
-        Long revisionDoc = varcodeDto.getLatelyRevision();
+        Long revisionDoc = barcodeDto.getLatelyRevision();
         // 4. 데이터 전달
         WikiDto wikiDto = wikiService.getDocument(id, revisionDoc);
         model.addAttribute("wikiDto", wikiDto);
@@ -65,10 +65,10 @@ public class WikiController {
     @GetMapping("/wiki/edit/{id}")
     public String editDoc(@PathVariable("id") String id, Model model) {
         // 1. 코드 데이터 불러오기
-        VarcodeDto varcodeDto = wikiService.getCode(id);
+        BarcodeDto barcodeDto = wikiService.getCode(id);
         // 2. 코드 데이터가 있으면 최근 문서 데이터 전달
-        if(varcodeDto != null) {
-            WikiDto wikiDto = wikiService.getDocument(id, varcodeDto.getLatelyRevision());
+        if(barcodeDto != null) {
+            WikiDto wikiDto = wikiService.getDocument(id, barcodeDto.getLatelyRevision());
             model.addAttribute("wikiDto", wikiDto);
         } else {
             model.addAttribute("wikiDto", null);

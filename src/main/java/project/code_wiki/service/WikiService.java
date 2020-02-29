@@ -10,12 +10,12 @@ import project.code_wiki.common.ResultMessage;
 import project.code_wiki.domain.entity.DocumentEntity;
 import project.code_wiki.domain.entity.DocumentDistinctCodeIdEntity;
 import project.code_wiki.domain.entity.UserEntity;
-import project.code_wiki.domain.entity.VarcodeEntity;
+import project.code_wiki.domain.entity.BarcodeEntity;
 import project.code_wiki.domain.repository.DocumentRepository;
 import project.code_wiki.domain.repository.UserRepository;
-import project.code_wiki.domain.repository.VarcodeRepository;
+import project.code_wiki.domain.repository.BarcodeRepository;
 import project.code_wiki.dto.*;
-import project.code_wiki.exception.NotFoundVarcodeException;
+import project.code_wiki.exception.NotFoundBarcodeException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -26,23 +26,23 @@ import java.util.Optional;
 @AllArgsConstructor
 public class WikiService {
 
-    private VarcodeRepository varcodeRepository;
+    private BarcodeRepository barcodeRepository;
     private DocumentRepository documentRepository;
     private UserRepository userRepository;
 
     // 바코드 정보 추출
     @Transactional
-    public VarcodeDto getCode(String id) {
+    public BarcodeDto getCode(String id) {
         // 1. 코드 검색
         // Wrapper 객체 선언 (NULL 예외 처리를 위함)
-        Optional<VarcodeEntity> varcodeEntityWrapper = varcodeRepository.findById(id);
+        Optional<BarcodeEntity> barcodeEntityWrapper = barcodeRepository.findById(id);
         // 2. Optional 언박싱
-        if(!varcodeEntityWrapper.isPresent()) {
+        if(!barcodeEntityWrapper.isPresent()) {
             return null;
         }
-        VarcodeEntity varcodeEntity = varcodeEntityWrapper.get();
+        BarcodeEntity barcodeEntity = barcodeEntityWrapper.get();
         // 3. Entity -> DTO 변환 후 리턴
-        return convertEntityToVarcodeDto(varcodeEntity);
+        return convertEntityToBarcodeDto(barcodeEntity);
     }
 
     // 작성자 정보 추출
@@ -65,7 +65,7 @@ public class WikiService {
     public WikiDto getDocument(String id, Long revisionDoc) {
         // 1. 해당 리비전 문서 검색
         // Wrapper 객체 선언 (NULL 예외 처리를 위함)
-        Optional<DocumentEntity> documentEntityWrapper = documentRepository.findByVarcodeIdAndRevisionDoc(id, revisionDoc);
+        Optional<DocumentEntity> documentEntityWrapper = documentRepository.findByBarcodeIdAndRevisionDoc(id, revisionDoc);
         // 2. Optional 언박싱
         DocumentEntity documentEntity = documentEntityWrapper.orElse(null);
         // 3. 데이터 모델 변환 후 리턴
@@ -79,7 +79,7 @@ public class WikiService {
             return convertDocumentToWikiDto(documentDto);
         } catch (NullPointerException e) {
             // 해당 문서가 없으면 exception 발생
-            throw new NotFoundVarcodeException(ResultMessage.NOT_EXIST_VARCODE_ID.getValue());
+            throw new NotFoundBarcodeException(ResultMessage.NOT_EXIST_BARCODE_ID.getValue());
         }
     }
 
@@ -87,31 +87,31 @@ public class WikiService {
     @Transactional
     public void saveDoc(String id, String writerId, WikiDto wikiDto) {
         // 1. 코드 검색
-        VarcodeDto varcodeDto;
+        BarcodeDto barcodeDto;
         // Wrapper 객체 선언 (NULL 예외 처리를 위함)
-        Optional<VarcodeEntity> varcodeEntityWrapper = varcodeRepository.findById(id);
+        Optional<BarcodeEntity> barcodeEntityWrapper = barcodeRepository.findById(id);
         // 2. Optional 언박싱, 존재하지 않으면 바코드 정보부터 저장
-        if(!varcodeEntityWrapper.isPresent()) {
+        if(!barcodeEntityWrapper.isPresent()) {
             // 바코드 정보 저장
-            varcodeDto = VarcodeDto.builder()
+            barcodeDto = BarcodeDto.builder()
                      .id(id).name(wikiDto.getCodeName()).latelyRevision(0L)
                      .build();
-            varcodeRepository.save(varcodeDto.toEntity());
+            barcodeRepository.save(barcodeDto.toEntity());
         } else {
-            // Varcode Entity -> DTO
-            varcodeDto = convertEntityToVarcodeDto(varcodeEntityWrapper.get());
+            // Barcode Entity -> DTO
+            barcodeDto = convertEntityToBarcodeDto(barcodeEntityWrapper.get());
         }
         // 3. 리비전 갱신
-        Long revisionDoc = varcodeDto.getLatelyRevision()+1;
-        varcodeDto.setLatelyRevision(revisionDoc);
+        Long revisionDoc = barcodeDto.getLatelyRevision()+1;
+        barcodeDto.setLatelyRevision(revisionDoc);
         // 4. 코드 이름이 변경되면 갱신
-        if (!varcodeDto.getName().equals(wikiDto.getCodeName())) {
-            varcodeDto.setName(wikiDto.getCodeName());
+        if (!barcodeDto.getName().equals(wikiDto.getCodeName())) {
+            barcodeDto.setName(wikiDto.getCodeName());
         }
-        varcodeRepository.save(varcodeDto.toEntity());
+        barcodeRepository.save(barcodeDto.toEntity());
         // 5. 문서 정보 저장
         DocumentDto documentDto = DocumentDto.builder()
-                .varcodeId(id).revisionDoc(revisionDoc).userId(writerId).data(wikiDto.getData())
+                .barcodeId(id).revisionDoc(revisionDoc).userId(writerId).data(wikiDto.getData())
                 .build();
         documentRepository.save(documentDto.toEntity());
     }
@@ -120,7 +120,7 @@ public class WikiService {
     @Transactional
     public List<HistoryListDto> getHistory(String id, Integer pageNum) {
         // 1. 위키 문서 히스토리 리스트 불러오기(페이지에 출력할 수 있는 개수만큼만 불러오기)
-        Page<DocumentEntity> page = documentRepository.findByVarcodeId(id, PageRequest.of(pageNum - 1, PageController.PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "id")));
+        Page<DocumentEntity> page = documentRepository.findByBarcodeId(id, PageRequest.of(pageNum - 1, PageController.PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "id")));
         // 2. Page -> List 변환
         List<DocumentEntity> documentEntities = page.getContent();
         // 3. 데이터 모델 변환 후 리턴
@@ -137,12 +137,12 @@ public class WikiService {
     // 위키 문서 카운트
     @Transactional
     public Long getCodeDocCount(String id) {
-        return documentRepository.countByVarcodeId(id);
+        return documentRepository.countByBarcodeId(id);
     }
     // 코드 카운트
     @Transactional
     public Long getCodeCount() {
-        return varcodeRepository.count();
+        return barcodeRepository.count();
     }
 
     // 위키 리스트 추출
@@ -186,12 +186,12 @@ public class WikiService {
     @Transactional
     public List<OrderedListDto> searchDoc(String query, Integer pageNum) {
         // 1. 질의에 따른 위키 문서 검색(페이지에 출력할 수 있는 개수만큼만 불러오기)
-        Page<VarcodeEntity> page;
-        page=varcodeRepository.findByIdContainingOrNameContaining(query, query, this.getPageRequest(pageNum, "DESC"));
+        Page<BarcodeEntity> page;
+        page= barcodeRepository.findByIdContainingOrNameContaining(query, query, this.getPageRequest(pageNum, "DESC"));
         // 2. Page -> List
-        List<VarcodeEntity> varcodeEntities = page.getContent();
-        // 3. Varcode Entity -> Document Entity 변환
-        List<DocumentEntity> documentEntities = this.convertVarcodeToDocumentEntities(varcodeEntities);
+        List<BarcodeEntity> barcodeEntities = page.getContent();
+        // 3. Barcode Entity -> Document Entity 변환
+        List<DocumentEntity> documentEntities = this.convertBarcodeToDocumentEntities(barcodeEntities);
         // 4. Document Entity -> OrderedWikiList DTO 변환 후 리턴
         return this.convertToWikiList(documentEntities);
     }
@@ -200,18 +200,18 @@ public class WikiService {
     public String searchDoc(String query) {
         // 1. 위키 문서 LIKE 검색
         // Wrapper 객체 선언 (NULL 예외 처리를 위함)
-        Optional<VarcodeEntity> varcodeEntityWrapper = varcodeRepository.findByIdLikeOrNameLike(query, query);
+        Optional<BarcodeEntity> barcodeEntityWrapper = barcodeRepository.findByIdLikeOrNameLike(query, query);
         // 2. Optional 언박싱 후 결과 존재하면 코드 ID 리턴
-        if(varcodeEntityWrapper.isPresent()) {
-            VarcodeEntity varcodeEntity = varcodeEntityWrapper.get();
-            return varcodeEntity.getId();
+        if(barcodeEntityWrapper.isPresent()) {
+            BarcodeEntity barcodeEntity = barcodeEntityWrapper.get();
+            return barcodeEntity.getId();
         }
         // 3. 없으면 검색 조건 완화 (LIKE -> CONTAINING)
-        varcodeEntityWrapper = varcodeRepository.findByIdContainingOrNameContaining(query, query);
+        barcodeEntityWrapper = barcodeRepository.findByIdContainingOrNameContaining(query, query);
         // 4. Optional 언박싱 후 결과 존재하면 코드 ID 리턴
-        if (varcodeEntityWrapper.isPresent()) {
-            VarcodeEntity varcodeEntity = varcodeEntityWrapper.get();
-            return varcodeEntity.getId();
+        if (barcodeEntityWrapper.isPresent()) {
+            BarcodeEntity barcodeEntity = barcodeEntityWrapper.get();
+            return barcodeEntity.getId();
         }
         // 5. 그래도 없으면 null 리턴
         return null;
@@ -222,11 +222,11 @@ public class WikiService {
     public String shuffleDoc() {
         // 1. 위키 문서 LIKE 검색
         // Wrapper 객체 선언 (NULL 예외 처리를 위함)
-        Optional<VarcodeEntity> varcodeEntityWrapper = varcodeRepository.findIdRandom();
+        Optional<BarcodeEntity> barcodeEntityWrapper = barcodeRepository.findIdRandom();
         // 2. Optional 언박싱 후 결과 존재하면 코드 ID 리턴
-        if(varcodeEntityWrapper.isPresent()) {
-            VarcodeEntity varcodeEntity = varcodeEntityWrapper.get();
-            return varcodeEntity.getId();
+        if(barcodeEntityWrapper.isPresent()) {
+            BarcodeEntity barcodeEntity = barcodeEntityWrapper.get();
+            return barcodeEntity.getId();
         }
         // 3. 없으면 null 리턴
         return null;
@@ -243,11 +243,11 @@ public class WikiService {
         return pageRequest;
     }
 
-    // Varcode Entity -> Document Entity 변환
-    private List<DocumentEntity> convertVarcodeToDocumentEntities(List<VarcodeEntity> entities) {
+    // Barcode Entity -> Document Entity 변환
+    private List<DocumentEntity> convertBarcodeToDocumentEntities(List<BarcodeEntity> entities) {
         List<DocumentEntity> list = new ArrayList<>();
-        for(VarcodeEntity entity : entities) {
-            Optional<DocumentEntity> entityWrapper = documentRepository.findByVarcodeIdAndRevisionDoc(entity.getId(), entity.getLatelyRevision());
+        for(BarcodeEntity entity : entities) {
+            Optional<DocumentEntity> entityWrapper = documentRepository.findByBarcodeIdAndRevisionDoc(entity.getId(), entity.getLatelyRevision());
             DocumentEntity documentEntity = entityWrapper.orElse(null);
             list.add(documentEntity);
         }
@@ -257,7 +257,7 @@ public class WikiService {
     private List<DocumentEntity> convertToDocumentEntity(List<DocumentDistinctCodeIdEntity> entities) {
         List<DocumentEntity> list = new ArrayList<>();
         for(DocumentDistinctCodeIdEntity entity : entities) {
-            Optional<DocumentEntity> entityWrapper = documentRepository.findByVarcodeIdAndRevisionDoc(entity.getVarcode_id(), entity.getRevision_doc());
+            Optional<DocumentEntity> entityWrapper = documentRepository.findByBarcodeIdAndRevisionDoc(entity.getBarcode_id(), entity.getRevision_doc());
             DocumentEntity documentEntity = entityWrapper.orElse(null);
             list.add(documentEntity);
         }
@@ -267,18 +267,18 @@ public class WikiService {
     private List<OrderedListDto> convertToWikiList(List<DocumentEntity> documentEntities) {
         List<OrderedListDto> wikiList = new ArrayList<>();
         for(DocumentEntity documentEntity : documentEntities) {
-            VarcodeDto varcodeDto = this.getCode(documentEntity.getVarcodeId());
-            DocumentDto documentDto = this.convertEntityToDocumentDto(documentEntity, varcodeDto);
+            BarcodeDto barcodeDto = this.getCode(documentEntity.getBarcodeId());
+            DocumentDto documentDto = this.convertEntityToDocumentDto(documentEntity, barcodeDto);
             wikiList.add(this.convertDocumentToOrderedListDto(documentDto));
         }
         return wikiList;
     }
-    // Varcode Entity -> DTO 변환
-    private VarcodeDto convertEntityToVarcodeDto(VarcodeEntity varcodeEntity) {
-        return VarcodeDto.builder()
-                .id(varcodeEntity.getId())
-                .name(varcodeEntity.getName())
-                .latelyRevision(varcodeEntity.getLatelyRevision())
+    // Barcode Entity -> DTO 변환
+    private BarcodeDto convertEntityToBarcodeDto(BarcodeEntity barcodeEntity) {
+        return BarcodeDto.builder()
+                .id(barcodeEntity.getId())
+                .name(barcodeEntity.getName())
+                .latelyRevision(barcodeEntity.getLatelyRevision())
                 .build();
     }
     // User Entity -> DTO 변환
@@ -288,11 +288,11 @@ public class WikiService {
                 .build();
     }
     // Document Entity -> DTO 변환 (최신 리비전)
-    private DocumentDto convertEntityToDocumentDto(DocumentEntity documentEntity, VarcodeDto varcodeDto) {
+    private DocumentDto convertEntityToDocumentDto(DocumentEntity documentEntity, BarcodeDto barcodeDto) {
         return DocumentDto.builder()
                 .id(documentEntity.getId())
-                .varcodeId(documentEntity.getVarcodeId())
-                .revisionDoc(varcodeDto.getLatelyRevision())
+                .barcodeId(documentEntity.getBarcodeId())
+                .revisionDoc(barcodeDto.getLatelyRevision())
                 .userId(documentEntity.getUserId())
                 .data(documentEntity.getData())
                 .updateDate(documentEntity.getUpdateDate())
@@ -302,7 +302,7 @@ public class WikiService {
     private DocumentDto convertEntityToDocumentDto(DocumentEntity documentEntity) {
         return DocumentDto.builder()
                 .id(documentEntity.getId())
-                .varcodeId(documentEntity.getVarcodeId())
+                .barcodeId(documentEntity.getBarcodeId())
                 .revisionDoc(documentEntity.getRevisionDoc())
                 .userId(documentEntity.getUserId())
                 .data(documentEntity.getData())
@@ -311,21 +311,21 @@ public class WikiService {
     }
     // Document DTO -> Wiki DTO 변환
     private WikiDto convertDocumentToWikiDto(DocumentDto documentDto) {
-        VarcodeDto varcodeDto = this.getCode(documentDto.getVarcodeId());
+        BarcodeDto barcodeDto = this.getCode(documentDto.getBarcodeId());
         return WikiDto.builder()
-                .codeId(documentDto.getVarcodeId())
-                .codeName(varcodeDto.getName())
+                .codeId(documentDto.getBarcodeId())
+                .codeName(barcodeDto.getName())
                 .updateDate(documentDto.getUpdateDate())
                 .data(documentDto.getData())
                 .build();
     }
     // DocumentDTO -> HistoryListDTO 변환
     private HistoryListDto convertDocumentToHistoryDto(DocumentDto documentDto) {
-        VarcodeDto varcodeDto = this.getCode(documentDto.getVarcodeId());
+        BarcodeDto barcodeDto = this.getCode(documentDto.getBarcodeId());
         UserDto userDto = this.getUserName(documentDto.getUserId());
         return HistoryListDto.builder()
-                .codeId(varcodeDto.getId())
-                .codeName(varcodeDto.getName())
+                .codeId(barcodeDto.getId())
+                .codeName(barcodeDto.getName())
                 .userName(userDto.getName())
                 .revisionDoc(documentDto.getRevisionDoc())
                 .updateDate(documentDto.getUpdateDate())
@@ -333,11 +333,11 @@ public class WikiService {
     }
     // DocumentDto -> OrderedListDto 변환
     private OrderedListDto convertDocumentToOrderedListDto(DocumentDto documentDto) {
-        VarcodeDto varcodeDto = this.getCode(documentDto.getVarcodeId());
+        BarcodeDto barcodeDto = this.getCode(documentDto.getBarcodeId());
         UserDto userDto = this.getUserName(documentDto.getUserId());
         return OrderedListDto.builder()
-                .codeId(varcodeDto.getId())
-                .codeName(varcodeDto.getName())
+                .codeId(barcodeDto.getId())
+                .codeName(barcodeDto.getName())
                 .userName(userDto.getName())
                 .updateDate(documentDto.getUpdateDate())
                 .build();

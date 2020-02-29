@@ -12,12 +12,12 @@ import javax.persistence.*;
 @Entity
 @NamedNativeQuery(
         // 랜덤으로 바코드 정보를 불러오는 쿼리
-        name = "VarcodeEntity.findIdRandom",
-        query = "SELECT * from varcode order by rand() limit 1",
-        resultClass = VarcodeEntity.class
+        name = "BarcodeEntity.findIdRandom",
+        query = "SELECT * from barcode order by rand() limit 1",
+        resultClass = BarcodeEntity.class
 )
-@Table(name = "varcode")
-public class VarcodeEntity {
+@Table(name = "barcode")
+public class BarcodeEntity {
     // 필드 정의
     @Id
     private String id;
