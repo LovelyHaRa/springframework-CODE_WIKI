@@ -1,3 +1,7 @@
+body {
+    overflow: scroll;
+}
+
 .navbar-toggler {
     font-size: 12px;
     right: 0;
@@ -7,7 +11,7 @@
     border: 2px solid #FFF;
 }
 
-.imgShuffle {
+.img-shuffle {
     background: url("../images/icon/shuffle.svg") no-repeat center;
     background-size: 80%;
     height: 100%;
@@ -15,7 +19,7 @@
     border-right: none;
 }
 
-.imgSearch {
+.img-search {
     background: url("../images/icon/search.svg") no-repeat center;
     background-size: 80%;
     height: 100%;
@@ -24,19 +28,19 @@
     border-right: none;
 }
 
-.imgGo {
-    background: url("../images/icon/go.svg") no-repeat center;
+.img-shortcuts {
+    background: url("../images/icon/shortcuts.svg") no-repeat center;
     background-size: 80%;
     height: 100%;
     border: 1px solid #ced4da;
 }
 
-.btnGroup {
+.btn-group {
     padding: 0;
     margin: 0 auto;
 }
 
-.btnSearch {
+#btn-search, #btn-shortcuts {
     border-radius: 0;
 }
 
@@ -74,7 +78,7 @@
 
 }
 
-.btnEdit .btnBack {
+.btn-edit .btn-back {
     cursor: pointer;
 }
 

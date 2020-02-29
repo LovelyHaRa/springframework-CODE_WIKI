@@ -1,16 +1,16 @@
-.boardList {
+.board-list {
     width: 98%;
     margin-top: 30px;
     margin-left: 1%;
     font-size: 0.7em;
 }
 
-.writeAction {
+.action-write {
     text-align: center;
     margin-right: 1%;
 }
 
-#writeForm {
+#form-write {
     margin-top: 30px;
     width: 98%;
     margin-left: 1%;
@@ -27,32 +27,32 @@
     margin-left: 2%;
 }
 
-.viewButton {
+.btn-view {
     margin-top: 30px;
     display: flex;
     justify-content: center;
 }
 
-.viewButton .btn {
+.btn-view .btn {
     margin-left: 5px;
     margin-right: 5px;
 }
 
-.menu {
+.board-menu {
     display: flex;
     justify-content: flex-end;
 }
 
-.menu div form {
+.board-menu div form {
     margin-left: 5px;
     margin-right: 5px;
 }
 
-.searchInput {
+.form-search {
     display: flex;
 }
 
-.searchInput input {
+.form-search input {
     margin-left: 5px;
     margin-right: 5px;
 }
@@ -63,4 +63,13 @@
 }
 .page-link {
     color: #343a40;
+}
+@media screen and (max-width: 423px){
+    .form-search input {
+        font-size: 0.8rem;
+    }
+
+    .btn-write {
+        font-size: 0.85rem;
+    }
 }

@@ -88,7 +88,7 @@ public class BoardController {
         }
         // 3. 데이터 전달
         model.addAttribute("boardDto", boardDto);
-        return "board/modify.html";
+        return "board/edit.html";
     }
 
     // Restful API 사용, 게시글 수정 처리

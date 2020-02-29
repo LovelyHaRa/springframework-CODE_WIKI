@@ -11,15 +11,15 @@
 
     <!-- CSS-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Comfortaa|Noto+Sans+KR|Nanum+Gothic" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" th:href="@{/css/join.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/css/fontstyle.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/sign-up.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/font-style.css}" type="text/css">
 </head>
 <body class="text-center">
 <div class="card">
     <form class="form-sign-up" th:action="@{/user/signup}" method="post">
         <h3 class="form-title h5 mb-3 font-weight-light"><span class="font-comfortaa">CODE WIKI </span></h3>
-        <h3 class="form-title h5 mb-3 font-weight-light"><span class="font-NG">회원가입</span></h3>
-        <div class="form-section card-body font-NG">
+        <h3 class="form-title h5 mb-3 font-weight-light"><span class="font-ng">회원가입</span></h3>
+        <div class="form-section card-body font-ng">
             <div class="form-group">
                 <p class="font-comfortaa">EMAIL</p>
                 <label for="email" class="sr-only">EMAIL</label>
@@ -38,7 +38,7 @@
                 <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="사용할 패스워드 입력" required>
             </div>
             <div class="form-group">
-                <p class="font-NG">사용자 이름</p>
+                <p class="font-ng">사용자 이름</p>
                 <label for="name" class="sr-only">사용자이름</label>
                 <input type="text" id="name" name="name" th:class="|form-control ${valid_nameAttr}|" th:value="${userDto.name}" placeholder="이름(닉네임) 입력" required>
                 <div class="invalid-feedback" th:text="${valid_name}"></div>
@@ -46,12 +46,12 @@
         </div>
         <div class="card-footer">
             <button class="btn btn-secondary btn-block" type="submit">회원가입</button>
-            <p class="font-NG"><a th:href="@{/user/login}">뒤로가기</a></p>
+            <p class="font-ng"><a th:href="@{/user/login}">뒤로가기</a></p>
         </div>
     </form>
 </div>
 <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}" type="text/javascript"></script>
 <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js}" type="text/javascript"></script>
-<script th:src="@{/js/join.js}" type="text/javascript"></script>
+<script th:src="@{/js/sign-up.js}" type="text/javascript"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@ $(function () {
         console.log(className);
         $(className).attr("onclick", "location.href='/board/post/" + item.id + "'");
     });
-    $('.btnWrite').click(function () {
+    $('.btn-write').click(function () {
         location.href="/board/write";
     });
 });

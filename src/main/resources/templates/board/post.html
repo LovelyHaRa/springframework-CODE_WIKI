@@ -29,7 +29,7 @@
             <hr>
             <p th:text="${boardDto.content}"></p>
         </div>
-        <div class="viewButton">
+        <div class="btn-view">
             <input type=button class="btn btn-secondary btnWrite" value="글쓰기">
             <input type=button class="btn btn-secondary btnList" value="목록">
             <a th:href="@{'/board/post/edit/'+${boardDto.id}}"><button class="btn btn-secondary">수정</button></a>
@@ -44,7 +44,7 @@
     <!--JavaScript-->
     <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}" type="text/javascript"></script>
     <script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
-    <script th:src="@{/js/search.js}" type="text/javascript"></script>
+    <script th:src="@{/js/search-event.js}" type="text/javascript"></script>
     <script th:src="@{/js/post.js}" type="text/javascript"></script>
 </body>
 </html>

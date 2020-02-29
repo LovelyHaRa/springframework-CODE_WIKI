@@ -104,7 +104,7 @@ public class WikiController {
         model.addAttribute("codeId", id);
         // 페이징 데이터 전달
         this.addPageAttribute(model, pageNum, pageList, prevBlock, nextBlock);
-        return "wiki/wiki-history.html";
+        return "wiki/wiki-history-list.html";
     }
 
     // 최근 변경된 문서 리스트 페이지

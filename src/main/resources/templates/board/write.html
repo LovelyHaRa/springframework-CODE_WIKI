@@ -20,7 +20,7 @@
     <div th:insert="common/header.html"></div>
 
     <section>
-        <form id="writeForm" th:action="@{/board/write}" method="post">
+        <form id="form-write" th:action="@{/board/write}" method="post">
             <!--제목-->
             <div class="control-group">
                 <div class="form-group">
@@ -52,6 +52,6 @@
     <!--JavaScript-->
     <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}" type="text/javascript"></script>
     <script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
-    <script th:src="@{/js/search.js}" type="text/javascript"></script>
+    <script th:src="@{/js/search-event.js}" type="text/javascript"></script>
 </body>
 </html>

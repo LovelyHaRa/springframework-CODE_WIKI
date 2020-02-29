@@ -26,7 +26,7 @@
                 <a class="btn btn-outline-secondary" href="#" role="button">역링크</a>
                 <a class="btn btn-outline-secondary" href="#" role="button">토론</a>
                 -->
-                <a class="btn btn-outline-secondary" rel="nofollow" th:href="@{'/wiki/edit/' + ${wikiDto.codeId}}" role="button" id="btnEdit">편집</a>
+                <a class="btn btn-outline-secondary" rel="nofollow" th:href="@{'/wiki/edit/' + ${wikiDto.codeId}}" role="button" id="btn-edit">편집</a>
                 <a class="btn btn-outline-secondary" th:href="@{'/wiki/' + ${wikiDto.codeId} + '/history'}" role="button">역사</a>
                 <!--
                 <a class="btn btn-outline-secondary" href="#" role="button">ACL</a>
@@ -45,6 +45,6 @@
     <!--JavaScript-->
     <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}" type="text/javascript"></script>
     <script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
-    <script th:src="@{/js/search.js}" type="text/javascript"></script>
+    <script th:src="@{/js/search-event.js}" type="text/javascript"></script>
 </body>
 </html>

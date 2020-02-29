@@ -26,19 +26,19 @@
     margin-right: 1%;
 }
 
-#btnSubmit {
+#btn-submit {
     margin-top: 20px;
 }
 
-.inputCodeName {
+.inp-code-name {
     margin-bottom: 30px;
 }
 
-.inputCodeName p {
+.inp-code-name p {
     margin-bottom: 10px;
 }
 
-#formEdit > p {
+#form-edit > p {
     margin-bottom: 10px;
 }
 

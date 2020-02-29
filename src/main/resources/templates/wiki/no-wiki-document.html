@@ -28,7 +28,7 @@
     <!--JavaScript-->
     <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}" type="text/javascript"></script>
     <script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
-    <script th:src="@{/js/search.js}" type="text/javascript"></script>
+    <script th:src="@{/js/search-event.js}" type="text/javascript"></script>
     <!-- 변수 셋팅 -->
     <script th:inline="javascript">
         /*<![CDATA[*/
@@ -37,7 +37,7 @@
     </script>
     <script type="text/javascript">
         $(function () {
-            $(".btnEdit").attr("onclick", "location.href='/wiki/edit/" + codeId + "'");
+            $(".btn-edit").attr("onclick", "location.href='/wiki/edit/" + codeId + "'");
         })
     </script>
 </body>

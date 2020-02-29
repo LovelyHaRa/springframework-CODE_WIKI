@@ -33,7 +33,7 @@ public class UserController {
         if (userDto==null) {
             model.addAttribute("userDto", null);
         }
-        return "user/signup.html";
+        return "sign-up.html";
     }
 
     // 회원가입 처리
@@ -54,7 +54,7 @@ public class UserController {
                 model.addAttribute(attr, "is-invalid");
             }
             // 같은 페이지 로드, (GET 요청에서 userDto 를 전달해 주지 않으면 페이지가 로드되지 않는다.)
-            return "user/signup.html";
+            return "sign-up.html";
         }
         // 검증 통과 시 유저 정보 저장
         userService.joinUser(userDto);
@@ -218,6 +218,6 @@ public class UserController {
     // 관리자 페이지 리다이렉트
     @GetMapping("/admin")
     public String admin() {
-        return "admin/admin.html";
+        return "admin/index.html";
     }
 }
