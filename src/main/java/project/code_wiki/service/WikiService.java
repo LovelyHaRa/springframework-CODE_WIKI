@@ -342,4 +342,38 @@ public class WikiService {
                 .updateDate(documentDto.getUpdateDate())
                 .build();
     }
+
+    // 관리자: 바코드 데이터 전부 불러오기
+    @Transactional
+    public List<BarcodeDto> getBarcodeData() {
+        List<BarcodeEntity> barcodeEntities = barcodeRepository.findAll();
+        List<BarcodeDto> barcodeDtoList = new ArrayList<>();
+        for(BarcodeEntity barcodeEntity : barcodeEntities) {
+            barcodeDtoList.add(this.convertEntityToBarcodeDto(barcodeEntity));
+        }
+
+        return barcodeDtoList;
+    }
+
+    // 바코드 데이터 삭제
+    @Transactional
+    public void deleteBarcode(String id) {
+        barcodeRepository.deleteById(id);
+    }
+
+    @Transactional
+    public List<DocumentDto> getDocumentData() {
+        List<DocumentEntity> documentEntities = documentRepository.findAll();
+        List<DocumentDto> documentDtoList = new ArrayList<>();
+        for(DocumentEntity documentEntity : documentEntities) {
+            documentDtoList.add(this.convertEntityToDocumentDto(documentEntity));
+        }
+
+        return documentDtoList;
+    }
+
+    @Transactional
+    public void deleteDocument(Long id) {
+        documentRepository.deleteById(id);
+    }
 }

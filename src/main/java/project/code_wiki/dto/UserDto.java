@@ -29,6 +29,7 @@ public class UserDto {
     @NotBlank(message = "필수 사항입니다.")
     @Size(min = 2, max = 8, message = "2~8자 범위의 이름만 가능합니다")
     private String name;
+    private LocalDateTime registerDateTime;
 
     // DTO 에서 필요한 부분을 빌더 패턴을 통해 entity 로 만듬
     public UserEntity toEntity() {
@@ -38,9 +39,10 @@ public class UserDto {
     }
     // 빌더를 이렇게도 사용할 수 있다.
     @Builder
-    public UserDto(String email, String password, String name) {
+    public UserDto(String email, String password, String name, LocalDateTime registerDateTime) {
         this.email = email;
         this.password = password;
         this.name = name;
+        this.registerDateTime = registerDateTime;
     }
 }

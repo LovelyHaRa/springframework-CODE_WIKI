@@ -49,3 +49,119 @@ body {
     margin-right: 4px;
     color: #575757;
 }
+
+.table {
+    margin-bottom: 0;
+}
+
+.table td, .table th {
+    padding: 10px;
+    vertical-align: middle;
+    border-top: 1px solid #e6e6f2;
+    font-weight: normal;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #e6e6f2;
+}
+
+.table thead th, .table th {
+    color: #3d405c;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.table-bordered {
+    border: 1px solid #e6e6f2;
+}
+
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid #e6e6f2;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(230, 230, 242, .5);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(230, 230, 242, .5);
+}
+
+tr.group,
+tr.group:hover {
+    background-color: #5969ff !important;
+    color: #fff;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 18px;
+}
+
+.card {
+    margin-bottom: 30px;
+    border: none;
+    -webkit-box-shadow: 0 0 2px 1px rgba(154, 154, 204, 0.22);
+    -moz-box-shadow: 0 0 2px 1px rgba(154, 154, 204, 0.22);
+    box-shadow: 0 0 2px 1px rgba(154, 154, 204, 0.22);
+    margin-top: 70px;
+}
+
+@media screen and (max-width: 575px) {
+    .card {
+        margin-top: 140px;
+    }
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #e6e6f2;
+}
+
+table {
+    width: 100%;
+}
+
+@media screen and (max-width: 1035px) {
+    table {
+        font-size: 0.8rem;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    table {
+        font-size: 0.6rem;
+    }
+}
+
+.table-responsive .top {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.btn-export-csv {
+    font-size: 0.6rem;
+    padding: .275rem .375rem;
+}
+
+.btn-delete {
+    font-size: 0.6rem;
+    padding: .275rem .375rem;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+.page-link {
+    color: #343a40;
+}

@@ -4,14 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import project.code_wiki.common.PageController;
+import project.code_wiki.dto.BarcodeDto;
 import project.code_wiki.dto.HistoryListDto;
 import project.code_wiki.dto.OrderedListDto;
-import project.code_wiki.dto.BarcodeDto;
 import project.code_wiki.dto.WikiDto;
 import project.code_wiki.security.CustomUserDetails;
 import project.code_wiki.service.WikiService;
@@ -197,5 +194,39 @@ public class WikiController {
         model.addAttribute("nextBlock",
                 nextBlock > (pageList[0]-1) + PageController.BLOCK_PAGE_NUM_COUNT ? nextBlock : 0);
         model.addAttribute("page", pageNum);
+    }
+
+    // 관리자 페이지에서 barcode 테이블 조회
+    @GetMapping("/admin/barcode")
+    public String viewBarcodeTable(Model model) {
+        model.addAttribute("type", "barcode");
+        model.addAttribute("barcodeList", wikiService.getBarcodeData());
+        return "admin/index.html";
+    }
+
+    // Restful API 사용, 게시글 삭제 처리
+    @DeleteMapping("/admin/barcode/delete")
+    public String deleteBarcodeByAdmin(String id) {
+        // 1. 게시글 삭제
+        wikiService.deleteBarcode(id);
+        // 2. 게시판 목록으로 이동
+        return "redirect:/admin/barcode";
+    }
+
+    // 관리자 페이지에서 document 테이블 조회
+    @GetMapping("/admin/document")
+    public String viewDocumentTable(Model model) {
+        model.addAttribute("type", "document");
+        model.addAttribute("documentList", wikiService.getDocumentData());
+        return "admin/index.html";
+    }
+
+    // Restful API 사용, 게시글 삭제 처리
+    @DeleteMapping("/admin/document/delete")
+    public String deleteDocumentByAdmin(Long id) {
+        // 1. 게시글 삭제
+        wikiService.deleteDocument(id);
+        // 2. 게시판 목록으로 이동
+        return "redirect:/admin/document";
     }
 }
