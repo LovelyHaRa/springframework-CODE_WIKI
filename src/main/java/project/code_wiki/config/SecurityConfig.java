@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 403 예외처리 핸들링
                 .exceptionHandling().accessDeniedPage("/denied");
-
+        http.csrf().ignoringAntMatchers("/admin/**");
     }
 
     // 로그인 성공했을 때 처리 핸들러 등록 (이전 페이지로 리다이렉트)

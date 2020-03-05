@@ -10,6 +10,7 @@ import project.code_wiki.common.ResultMessage;
 import project.code_wiki.domain.entity.BoardEntity;
 import project.code_wiki.domain.repository.BoardRepository;
 import project.code_wiki.dto.BoardDto;
+import project.code_wiki.dto.DataTableDto;
 import project.code_wiki.exception.NotFoundPostException;
 
 import javax.transaction.Transactional;
@@ -112,7 +113,20 @@ public class BoardService {
                 .title(boardEntity.getTitle())
                 .content(boardEntity.getContent())
                 .createdDate(boardEntity.getCreatedDate())
+                .modifiedDate(boardEntity.getModifiedDate())
                 .hit(boardEntity.getHit())
                 .build();
+    }
+
+    // 관리자: 게시글 데이터 전부 불러오기
+    @Transactional
+    public List<BoardDto> getBoardData() {
+        List<BoardEntity> boardEntities = boardRepository.findAll();
+        List<BoardDto> boardDtoList = new ArrayList<>();
+        for(BoardEntity boardEntity : boardEntities) {
+            boardDtoList.add(this.convertEntityToDto(boardEntity));
+        }
+
+        return boardDtoList;
     }
 }

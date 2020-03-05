@@ -5,6 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,7 @@ public class UserController {
         if (userDto==null) {
             model.addAttribute("userDto", null);
         }
-        return "sign-up.html";
+        return "user/sign-up.html";
     }
 
     // 회원가입 처리
@@ -54,7 +55,7 @@ public class UserController {
                 model.addAttribute(attr, "is-invalid");
             }
             // 같은 페이지 로드, (GET 요청에서 userDto 를 전달해 주지 않으면 페이지가 로드되지 않는다.)
-            return "sign-up.html";
+            return "user/sign-up.html";
         }
         // 검증 통과 시 유저 정보 저장
         userService.joinUser(userDto);
@@ -219,5 +220,30 @@ public class UserController {
     @GetMapping("/admin")
     public String admin() {
         return "admin/index.html";
+    }
+
+    // 데이터테이블 뷰
+//    @GetMapping("/admin/{type}")
+//    public String viewTable(@PathVariable("type") String type, Model model) {
+//        model.addAttribute("type", type);
+//
+//        return "admin/index.html";
+//    }
+
+    // 관리자 페이지에서 User 테이블 조회
+    @GetMapping("/admin/user")
+    public String viewTable(Model model) {
+        model.addAttribute("type", "user");
+        model.addAttribute("userList", userService.getUserData());
+        return "admin/index.html";
+    }
+
+    // Restful API 사용, User 삭제 처리
+    @DeleteMapping("/admin/user/delete")
+    public String deleteUserByAdmin(String email) {
+        // 1. 게시글 삭제
+        userService.deleteUser(email);
+        // 2. 게시판 목록으로 이동
+        return "redirect:/admin/user";
     }
 }

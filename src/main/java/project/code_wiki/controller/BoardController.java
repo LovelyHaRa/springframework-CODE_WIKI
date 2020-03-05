@@ -1,13 +1,16 @@
 package project.code_wiki.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import project.code_wiki.common.PageController;
 import project.code_wiki.common.ResultMessage;
 import project.code_wiki.dto.BoardDto;
+import project.code_wiki.dto.DataTableDto;
 import project.code_wiki.exception.AccessDeniedException;
 import project.code_wiki.security.CustomUserDetails;
 import project.code_wiki.service.BoardService;
@@ -127,5 +130,22 @@ public class BoardController {
         model.addAttribute("nextBlock",
                 nextBlock > (pageList[0]-1) + PageController.BLOCK_PAGE_NUM_COUNT ? nextBlock : 0);
         model.addAttribute("page", pageNum);
+    }
+
+    // 관리자 페이지에서 Board 테이블 조회
+    @GetMapping("/admin/board")
+    public String viewTable(Model model) {
+        model.addAttribute("type", "board");
+        model.addAttribute("boardList", boardService.getBoardData());
+        return "admin/index.html";
+    }
+
+    // Restful API 사용, 게시글 삭제 처리
+    @DeleteMapping("/admin/board/delete")
+    public String deletePostByAdmin(Long id) {
+        // 1. 게시글 삭제
+        boardService.deletePost(id);
+        // 2. 게시판 목록으로 이동
+        return "redirect:/admin/board";
     }
 }

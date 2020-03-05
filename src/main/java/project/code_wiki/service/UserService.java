@@ -147,4 +147,32 @@ public class UserService implements UserDetailsService {
         // 3. 결과 리턴
         return userEntity != null;
     }
+
+    // 유저 테이블 전부 불러오기
+    @Transactional
+    public List<UserDto> getUserData() {
+        List<UserEntity> userEntities = userRepository.findAll();
+        List<UserDto> userDtoList = new ArrayList<>();
+        for(UserEntity userEntity : userEntities) {
+            userDtoList.add(this.convertEntityToDto(userEntity));
+        }
+
+        return userDtoList;
+    }
+
+    // Entity -> DTO 변환 메서드
+    private UserDto convertEntityToDto(UserEntity userEntity) {
+        return UserDto.builder()
+                .email(userEntity.getEmail())
+                .name(userEntity.getName())
+                .password("encrypted")
+                .registerDateTime(userEntity.getRegisterDateTime())
+                .build();
+    }
+
+    // 유저 삭제
+    @Transactional
+    public void deleteUser(String email) {
+        userRepository.deleteByEmail(email);
+    }
 }

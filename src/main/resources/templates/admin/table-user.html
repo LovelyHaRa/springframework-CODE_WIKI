@@ -1,0 +1,29 @@
+<div class="card" xmlns:th="http://www.thymeleaf.org">
+    <h5 class="card-header">User Table</h5>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered user">
+                <thead>
+                <tr>
+                    <th>email</th>
+                    <th>password</th>
+                    <th>name</th>
+                    <th>registerDateTime</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${userList}">
+                    <td><span th:text="${user.email}"></span></td>
+                    <td><span th:text="${user.password}"></span></td>
+                    <td><span th:text="${user.name}"></span></td>
+                    <td><span th:text="${#temporals.format(user.registerDateTime, 'yyyy-MM-dd HH:mm')}"></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <form id="form-admin-delete" method="POST" th:action="@{/admin/user/delete}">
+            <input type=hidden name="_method" value="delete" />
+            <input type="hidden" name="email" class="inp-user-email" value="">
+        </form>
+    </div>
+</div>
