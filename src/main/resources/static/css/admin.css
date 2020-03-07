@@ -2,27 +2,25 @@ body {
     font-size: .875rem;
 }
 
-.navbar-toggler {
-    font-size: 12px;
-    right: 0;
-    padding: 9px;
-    text-transform: uppercase;
-    color: white;
-    border: 2px solid #FFF;
+.navbar {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-/*
- * Sidebar
- */
+.text-admin-name {
+    color: #e7e7e7;
+}
 
 .sidebar {
     position: fixed;
     top: 0;
-    bottom: 0;
     left: 0;
     z-index: 100; /* Behind the navbar */
     padding: 48px 0 0; /* Height of navbar */
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    width: 160px;
 }
 
 .sidebar-sticky {
@@ -48,6 +46,57 @@ body {
 .sidebar .nav-link i {
     margin-right: 4px;
     color: #575757;
+}
+
+main {
+    position: relative;
+    padding-top: 48px;
+    padding-left: 160px;
+    width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+    main {
+        padding-left: 0;
+    }
+    .sidebar {
+        z-index: 100;
+        -webkit-transform: translate3d(-300px, 0, 0);
+        -moz-transform: translate3d(-300px, 0, 0);
+        transform: translate3d(-300px, 0, 0);
+        -webkit-transition: all 0.2s;
+        -moz-transition: all 0.2s;
+        -o-transition: all 0.2s;
+        transition: all 0.2s;
+    }
+
+    #content.open .sidebar {
+        overflow-y: auto;
+        -webkit-transform: translate3d(0, 0, 0);
+        -moz-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        -webkit-transition: all 0.2s;
+        -moz-transition: all 0.2s;
+        -o-transition: all 0.2s;
+        transition: all 0.2s;
+    }
+
+    #sidebar-toggle {
+        display: block;
+        position: fixed;
+        left: 10px;
+        bottom: 10px;
+        width: 50px;
+        height: 50px;
+        line-height: 55px;
+        text-align: center;
+        color: #555;
+        background-color: #f1f1f1;
+        border-radius: 10px;
+        opacity: 0.9;
+        box-shadow: 0 0 10px #aaa;
+        z-index: 101;
+    }
 }
 
 .table {
@@ -97,18 +146,11 @@ tr.group:hover {
 }
 
 .card {
-    margin-bottom: 30px;
+    margin: 10px;
     border: none;
     -webkit-box-shadow: 0 0 2px 1px rgba(154, 154, 204, 0.22);
     -moz-box-shadow: 0 0 2px 1px rgba(154, 154, 204, 0.22);
     box-shadow: 0 0 2px 1px rgba(154, 154, 204, 0.22);
-    margin-top: 70px;
-}
-
-@media screen and (max-width: 575px) {
-    .card {
-        margin-top: 140px;
-    }
 }
 
 .card-header {
