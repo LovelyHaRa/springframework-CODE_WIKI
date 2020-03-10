@@ -10,7 +10,7 @@ import project.code_wiki.common.ResultMessage;
 import project.code_wiki.domain.entity.BoardEntity;
 import project.code_wiki.domain.repository.BoardRepository;
 import project.code_wiki.dto.BoardDto;
-import project.code_wiki.dto.DataTableDto;
+import project.code_wiki.dto.DataStatisticDto;
 import project.code_wiki.exception.NotFoundPostException;
 
 import javax.transaction.Transactional;
@@ -128,5 +128,11 @@ public class BoardService {
         }
 
         return boardDtoList;
+    }
+
+    // API 요청: 주간 일별 데이터 카운트
+    @Transactional
+    public List<DataStatisticDto> getPostWeekCount() {
+        return boardRepository.getPostWeekCount();
     }
 }

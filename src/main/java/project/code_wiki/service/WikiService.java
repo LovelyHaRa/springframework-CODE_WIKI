@@ -376,4 +376,13 @@ public class WikiService {
     public void deleteDocument(Long id) {
         documentRepository.deleteById(id);
     }
+
+    public List<DataStatisticDto> getCodeWeekCount() {
+        return documentRepository.getCodeWeekCount();
+    }
+
+    @Transactional
+    public List<DataStatisticDto> getRevisionWeekCount() {
+        return documentRepository.getRevisionWeekCount();
+    }
 }

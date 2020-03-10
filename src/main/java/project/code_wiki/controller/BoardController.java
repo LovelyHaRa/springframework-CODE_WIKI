@@ -1,21 +1,21 @@
 package project.code_wiki.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import project.code_wiki.common.PageController;
 import project.code_wiki.common.ResultMessage;
 import project.code_wiki.dto.BoardDto;
-import project.code_wiki.dto.DataTableDto;
+import project.code_wiki.dto.DataStatisticDto;
 import project.code_wiki.exception.AccessDeniedException;
 import project.code_wiki.security.CustomUserDetails;
 import project.code_wiki.service.BoardService;
 
 import java.util.List;
+import java.util.Map;
+
 // 게시판 컨트롤러
 @Controller
 @AllArgsConstructor
@@ -147,5 +147,12 @@ public class BoardController {
         boardService.deletePost(id);
         // 2. 게시판 목록으로 이동
         return "redirect:/admin/board";
+    }
+
+    // 최근 7일 게시글 개수 일별로 불러오기(JSON)
+    @PostMapping("/api/post/count/week")
+    @ResponseBody
+    public List<DataStatisticDto> getPostWeekCount() {
+        return boardService.getPostWeekCount();
     }
 }

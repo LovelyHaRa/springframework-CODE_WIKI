@@ -6,10 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import project.code_wiki.common.PageController;
-import project.code_wiki.dto.BarcodeDto;
-import project.code_wiki.dto.HistoryListDto;
-import project.code_wiki.dto.OrderedListDto;
-import project.code_wiki.dto.WikiDto;
+import project.code_wiki.dto.*;
 import project.code_wiki.security.CustomUserDetails;
 import project.code_wiki.service.WikiService;
 
@@ -228,5 +225,19 @@ public class WikiController {
         wikiService.deleteDocument(id);
         // 2. 게시판 목록으로 이동
         return "redirect:/admin/document";
+    }
+
+    // 최근 7일동안 등록된 바코드 개수 일별로 불러오기(JSON)
+    @PostMapping("/api/barcode/count/week")
+    @ResponseBody
+    public List<DataStatisticDto> getCodeWeekCount() {
+        return wikiService.getCodeWeekCount();
+    }
+
+    // 최근 7일동안 등록된 리비전 일별로 불러오기(JSON)
+    @PostMapping("/api/document/count/week")
+    @ResponseBody
+    public List<DataStatisticDto> getRevisionWeekCount() {
+        return wikiService.getRevisionWeekCount();
     }
 }

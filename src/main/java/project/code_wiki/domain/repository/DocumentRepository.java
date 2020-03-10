@@ -6,7 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import project.code_wiki.domain.entity.DocumentEntity;
 import project.code_wiki.domain.entity.DocumentDistinctCodeIdEntity;
+import project.code_wiki.dto.DataStatisticDto;
 
+import java.util.List;
 import java.util.Optional;
 
 // JPA 데이터 조작을 담당하는 인터페이스
@@ -21,4 +23,8 @@ public interface DocumentRepository extends JpaRepository<DocumentEntity, Long> 
     @Query(nativeQuery = true)
     Page<DocumentDistinctCodeIdEntity> findDocListOrderByLengthAsc(Pageable pageable); // 내용이 짧은 문서 리스트(페이징)
     Long countByBarcodeId(String id); // 등록된 코드 정보 카운팅
+    @Query(nativeQuery = true)
+    List<DataStatisticDto> getCodeWeekCount();
+    @Query(nativeQuery = true)
+    List<DataStatisticDto> getRevisionWeekCount();
 }

@@ -61,6 +61,11 @@ body {
     color: #575757;
 }
 
+.sidebar-heading {
+    font-size: .75rem;
+    text-transform: uppercase;
+}
+
 main {
     position: relative;
     padding-top: 48px;
@@ -110,6 +115,13 @@ main {
         box-shadow: 0 0 10px #aaa;
         z-index: 101;
     }
+}
+
+.dashboard {
+    display: flex;
+    justify-content: center;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .table {

@@ -2,11 +2,10 @@ package project.code_wiki.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import project.code_wiki.dto.DataStatisticDto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 // 유저 데이터 표현
@@ -16,6 +15,28 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "user")
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "UserEntity.getUserWeekCount",
+                query = "SELECT substring(register_date_time,1,10) as date, COUNT(*) AS count " +
+                        "FROM user " +
+                        "WHERE DATE(register_date_time) >= DATE_SUB(NOW(), INTERVAL 7 DAY) " +
+                        "GROUP BY date;",
+                resultSetMapping = "UserEntity.getUserWeekCount"
+        )
+})
+@SqlResultSetMapping(
+        name = "UserEntity.getUserWeekCount",
+        classes = {
+                @ConstructorResult(
+                        targetClass = DataStatisticDto.class,
+                        columns = {
+                                @ColumnResult(name = "date", type = LocalDate.class),
+                                @ColumnResult(name = "count", type = Long.class),
+                        }
+                )
+        }
+)
 public class UserEntity {
     @Id
     private String email; // 이메일 주소

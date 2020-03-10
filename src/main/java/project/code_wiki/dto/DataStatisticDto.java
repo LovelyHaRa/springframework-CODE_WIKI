@@ -5,15 +5,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @Builder
-public class DataTableDto {
-    private int draw;
-    private int recordsTotal;
-    private int recordsFiltered;
-    private List<?> data;
+public class DataStatisticDto {
+    private LocalDate date;
+    private long count;
 }

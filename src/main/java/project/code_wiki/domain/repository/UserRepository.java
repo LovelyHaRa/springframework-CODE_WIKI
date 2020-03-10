@@ -3,8 +3,9 @@ package project.code_wiki.domain.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import project.code_wiki.domain.entity.UserEntity;
-import project.code_wiki.dto.DataTableDto;
+import project.code_wiki.dto.DataStatisticDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,4 +16,6 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     Optional<UserEntity> findByEmailAndName(String email, String name); // 이메일과 이름을 동시에 만족하는 데이터 찾기
     Page<UserEntity> findAll(Pageable pageable);
     void deleteByEmail(String email);
+    @Query(nativeQuery = true)
+    List<DataStatisticDto> getUserWeekCount();
 }

@@ -13,6 +13,7 @@ import org.springframework.validation.FieldError;
 import project.code_wiki.common.ResultMessage;
 import project.code_wiki.domain.entity.UserEntity;
 import project.code_wiki.domain.repository.UserRepository;
+import project.code_wiki.dto.DataStatisticDto;
 import project.code_wiki.dto.MyPageUserDto;
 import project.code_wiki.dto.UpdateUserDto;
 import project.code_wiki.dto.UserDto;
@@ -174,5 +175,11 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void deleteUser(String email) {
         userRepository.deleteByEmail(email);
+    }
+
+    // API 요청: 주간 일별 데이터 카운트
+    @Transactional
+    public List<DataStatisticDto> getUserWeekCount() {
+        return userRepository.getUserWeekCount();
     }
 }

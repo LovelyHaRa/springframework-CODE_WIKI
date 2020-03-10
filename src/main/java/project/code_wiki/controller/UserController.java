@@ -5,11 +5,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import project.code_wiki.common.ResultMessage;
+import project.code_wiki.dto.DataStatisticDto;
 import project.code_wiki.dto.MyPageUserDto;
 import project.code_wiki.dto.UpdateUserDto;
 import project.code_wiki.dto.UserDto;
@@ -19,6 +17,7 @@ import project.code_wiki.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 // 사용자 컨트롤러
 @Controller
@@ -218,17 +217,10 @@ public class UserController {
 
     // 관리자 페이지 리다이렉트
     @GetMapping("/admin")
-    public String admin() {
+    public String admin(Model model) {
+        model.addAttribute("type", "dashboard");
         return "admin/index.html";
     }
-
-    // 데이터테이블 뷰
-//    @GetMapping("/admin/{type}")
-//    public String viewTable(@PathVariable("type") String type, Model model) {
-//        model.addAttribute("type", type);
-//
-//        return "admin/index.html";
-//    }
 
     // 관리자 페이지에서 User 테이블 조회
     @GetMapping("/admin/user")
@@ -245,5 +237,12 @@ public class UserController {
         userService.deleteUser(email);
         // 2. 게시판 목록으로 이동
         return "redirect:/admin/user";
+    }
+
+    // 최근 7일 게시글 개수 일별로 불러오기(JSON)
+    @PostMapping("/api/user/count/week")
+    @ResponseBody
+    public List<DataStatisticDto> getUserWeekCount() {
+        return userService.getUserWeekCount();
     }
 }
